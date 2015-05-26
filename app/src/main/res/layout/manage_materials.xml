@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#FFFFFF"
+    tools:context="com.ditaoktaria.classic.ManageMaterials"
+    android:id="@+id/bg_material">
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:text="My account"
+        android:textColor="#FFFFFF"
+        android:drawableLeft="@android:drawable/ic_menu_agenda"
+        android:textSize="8dp"
+        android:background="#4e4e4e"
+        android:id="@+id/bt_account"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:text="Materials"
+        android:id="@+id/bt_materials"
+        android:background="#ff8914"
+        android:layout_below="@+id/bt_account"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="29dp" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/bt_materials"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#fce2d4"
+        android:id="@+id/bg2_materials">
+
+        <Button
+            android:layout_width="65dp"
+            android:layout_height="30dp"
+            android:text="Folder"
+            android:textSize="8dp"
+            android:id="@+id/bt_add_folder"
+            android:layout_gravity="left|top"
+            android:background="#28b6e5"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@android:drawable/ic_input_add"/>
+
+        <Button
+            android:layout_width="33dp"
+            android:layout_height="35dp"
+            android:id="@+id/bt_edit_materials"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="138dp"
+            android:layout_marginTop="8dp"
+            android:background="#4e4e4e"
+            android:drawableLeft="@android:drawable/ic_menu_edit"
+            />
+
+        <Button
+            android:layout_width="33dp"
+            android:layout_height="35dp"
+            android:id="@+id/bt_delete_materials"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="95dp"
+            android:layout_marginTop="8dp"
+            android:background="#4e4e4e"
+            android:drawableLeft="@android:drawable/ic_menu_delete"
+            />
+
+        <Button
+            android:layout_width="33dp"
+            android:layout_height="35dp"
+            android:id="@+id/bt_move_materials"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="52dp"
+            android:layout_marginTop="8dp"
+            android:background="#4e4e4e"
+            android:drawableLeft="@android:drawable/ic_menu_directions"
+            />
+        <Button
+            android:layout_width="33dp"
+            android:layout_height="35dp"
+            android:id="@+id/bt_upload_materials"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="8dp"
+            android:background="#28b6e5"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@android:drawable/ic_menu_upload_you_tube"
+            />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="317dp"
+            android:id="@+id/material_list"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="left|center_vertical"
+            android:choiceMode="none" />
+    </FrameLayout>
+</RelativeLayout>

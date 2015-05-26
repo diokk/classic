@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Classic</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_pdfplayer">pdfplayer</string>
+    <string name="title_activity_materials">Materials</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_edit_account">EditAccount</string>
+    <string name="title_activity_videoplayer">videoplayer</string>
+</resources>
