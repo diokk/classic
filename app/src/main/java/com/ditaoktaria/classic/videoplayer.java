@@ -23,7 +23,7 @@ public class videoplayer extends ActionBarActivity {
         VideoView vidView = (VideoView)findViewById(R.id.myVideo);
 
 
-        String vidAddress = "http://192.168.56.1/classicdevel/letitgo.mp4";
+        String vidAddress = "http://192.168.56.1/classicdevel/video/caca.mp4";
         Uri vidUri = Uri.parse(vidAddress);
         vidView.setVideoURI(vidUri);
         vidView.start();

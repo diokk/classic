@@ -44,7 +44,7 @@ public class ManageMaterials extends ActionBarActivity {
                 startActivityForResult(myIntent, 0);
             }
         });
-        /*
+
         Button vid = (Button) findViewById(R.id.bt_edit_materials);
         vid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class ManageMaterials extends ActionBarActivity {
                 startActivityForResult(myIntent, 0);
             }
         });
-        */
+
 
     }
 
