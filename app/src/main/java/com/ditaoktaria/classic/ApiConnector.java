@@ -22,7 +22,7 @@ import java.net.URL;
  * Created by ditaoktaria on 4/13/15.
  */
 public class ApiConnector {
-
+/*
     public JSONArray GetAllCourses() {
 
         String url = "http://192.168.56.1/classicdevel/server/getAllCourses.php";
@@ -56,8 +56,41 @@ public class ApiConnector {
         }
 
         return null;
-    }
+    }*/
 
-    
+    public JSONArray GetAllSubject() {
+
+        String url = "http://172.21.0.195/services/api/akademik/jadwal";
+
+        URL _url = null;
+        HttpURLConnection connection = null;
+
+        try {
+            _url = new URL(url);
+
+            connection = (HttpURLConnection) _url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            InputStream is = connection.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+            String data = "";
+            String line = null;
+            while((line = reader.readLine()) != null) {
+                data += line;
+            }
+
+            Log.d("skripsi-client-lagi", data);
+
+            JSONArray response = new JSONArray(data);
+            return response;
+        }
+        catch (Exception ex) {
+            Log.d("skripsi-client-lagi", "Exception: " + ex.getMessage());
+        }
+
+        return null;
+    }
 
 }

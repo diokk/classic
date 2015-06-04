@@ -68,7 +68,7 @@ public class ManageMaterials extends ActionBarActivity {
         protected JSONArray doInBackground(ApiConnector... params) {
             // it is executed on Background thread
             //iko harusnyo manggil course, bukan lecture. tapi kalo course nyo error
-            return  params[0].GetAllCourses();
+            return  params[0].GetAllSubject();
         }
         protected void onPostExecute(JSONArray jsonArray){
             setListAdapter(jsonArray);

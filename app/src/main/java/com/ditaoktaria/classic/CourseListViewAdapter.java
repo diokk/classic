@@ -80,19 +80,19 @@ public class CourseListViewAdapter extends BaseAdapter {
         try
         {
             JSONObject jsonObject = this.dataArray.getJSONObject(position);
-            cell.courseCode.setText(jsonObject.getString("courseCode"));
-            cell.courseName.setText(jsonObject.getString("courseName"));
-            String course_name = jsonObject.getString("courseName");
+            cell.courseCode.setText(jsonObject.getString("id"));
+            cell.courseName.setText(jsonObject.getString("name"));
+            String course_name = jsonObject.getString("id");
 
-            if (course_name.equals("Algoritma Evolusi"))
+            if (course_name.equals("5315c2"))
             {
                 cell.courseImage.setImageResource(R.mipmap.ic_action_computer);
             }
-            else if (course_name.equals("Keamanan Jaringan"))
+            else if (course_name.equals("49ea5c"))
             {
                 cell.courseImage.setImageResource(R.mipmap.ic_action_not_secure);
             }
-            else if (course_name.equals("Pengembangan Aplikasi Perangkat Bergerak"))
+            else if (course_name.equals("0c0615"))
             {
                 cell.courseImage.setImageResource(R.mipmap.ic_action_network_cell);
             }
