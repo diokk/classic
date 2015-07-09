@@ -7,25 +7,29 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
-public class ManageMaterials extends ActionBarActivity {
+public class ManageCourse extends ActionBarActivity implements AdapterView.OnItemClickListener {
     private ListView material_list;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.manage_materials);
+        setContentView(R.layout.manage_course);
 
         this.material_list = (ListView) this.findViewById(R.id.material_list);
 
-        new getAllCourseTask().execute(new ApiConnector());
+       // new getAllCourseTask().execute(new ApiConnector());
+
+        String id= getIntent().getStringExtra("id");
 
         Button ac = (Button) findViewById(R.id.bt_account);
         ac.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +63,22 @@ public class ManageMaterials extends ActionBarActivity {
 
     public void setListAdapter(JSONArray jsonArray){
         this.material_list.setAdapter(new CourseListViewAdapter(jsonArray,this));
+        material_list.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //manggil adapter
+
+        JSONObject jsonObject = (JSONObject) material_list.getAdapter().getItem(position);
+        try {
+            String id1 = jsonObject.getString("id");
+            //id matkul
+            //bikin persis course list view adapter,material list cell juga
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //ambo pecik tarok di siko manggil asyn nyo
@@ -67,14 +87,15 @@ public class ManageMaterials extends ActionBarActivity {
     {
         protected JSONArray doInBackground(ApiConnector... params) {
             // it is executed on Background thread
-            //iko harusnyo manggil course, bukan lecture. tapi kalo course nyo error
+
             return  params[0].GetAllSubject();
         }
         protected void onPostExecute(JSONArray jsonArray){
+
             setListAdapter(jsonArray);
         }
 
-        //iko di tutorial idak ado, tapi kalo iko di hapus, error
+
 
     }
 

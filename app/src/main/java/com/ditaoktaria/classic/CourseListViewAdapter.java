@@ -1,5 +1,4 @@
 package com.ditaoktaria.classic;
-import android.os.Build;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -62,7 +61,7 @@ public class CourseListViewAdapter extends BaseAdapter {
         ListCell cell;
         if (convertView==null)
         {
-            convertView = inflater.inflate(R.layout.material_list_cell, null);
+            convertView = inflater.inflate(R.layout.course_list_cell, null);
             cell = new ListCell();
             cell.courseCode = (TextView) convertView.findViewById(R.id.course_code_list);
             cell.courseName = (TextView) convertView.findViewById(R.id.course_name_list);

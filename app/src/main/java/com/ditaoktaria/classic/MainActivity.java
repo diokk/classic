@@ -1,18 +1,12 @@
 package com.ditaoktaria.classic;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.lang.String;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,17 +16,15 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         StrictMode.enableDefaults();
-       //responseTextView = (TextView) this.findViewById(R.id.responseTextView);
-       // new GetAllLecturerTask().execute(new ApiConnector());
 
 
         Button lg = (Button) findViewById(R.id.bt_login);
         lg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), ManageMaterials.class);
+                Intent myIntent = new Intent(v.getContext(), ManageCourse.class);
                 startActivityForResult(myIntent, 0);
             }
         });
