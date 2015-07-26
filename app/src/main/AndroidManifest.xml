@@ -24,6 +24,10 @@
             android:label="@string/title_activity_materials" >
         </activity>
         <activity
+            android:name=".ManageMaterial"
+            android:label="@string/title_activity_materials" >
+        </activity>
+        <activity
             android:name=".Login"
             android:label="@string/title_activity_login" >
             <intent-filter>

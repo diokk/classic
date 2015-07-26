@@ -1,27 +1,28 @@
 package com.ditaoktaria.classic;
+
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.BaseAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-
 /**
  * Created by ditaoktaria on 4/24/15.
  */
-public class CourseListViewAdapter extends BaseAdapter {
+public class MaterialListViewAdapter extends BaseAdapter {
 
     private JSONArray dataArray;
     private Activity activity;
     private static LayoutInflater inflater = null;
 
-    public CourseListViewAdapter(JSONArray jsonArray, Activity a){
+    public MaterialListViewAdapter(JSONArray jsonArray, Activity a){
 
         this.dataArray = jsonArray;
         this.activity = a;
@@ -63,9 +64,9 @@ public class CourseListViewAdapter extends BaseAdapter {
         {
             convertView = inflater.inflate(R.layout.course_list_cell, null);
             cell = new ListCell();
-            cell.courseCode = (TextView) convertView.findViewById(R.id.course_code_list);
-            cell.courseName = (TextView) convertView.findViewById(R.id.course_name_list);
-            cell.courseImage = (ImageView) convertView.findViewById(R.id.course_img_list);
+            cell.materialCode = (TextView) convertView.findViewById(R.id.course_code_list);
+            cell.materialName = (TextView) convertView.findViewById(R.id.course_name_list);
+            cell.materialImage = (ImageView) convertView.findViewById(R.id.course_img_list);
             convertView.setTag(cell);
 
         }
@@ -79,8 +80,8 @@ public class CourseListViewAdapter extends BaseAdapter {
         try
         {
             JSONObject jsonObject = this.dataArray.getJSONObject(position);
-            cell.courseCode.setText(jsonObject.getString("mk_id"));
-            cell.courseName.setText(jsonObject.getString("mk_name"));
+            cell.materialCode.setText(jsonObject.getString("idMaterial"));
+            cell.materialName.setText(jsonObject.getString("materialTitle"));
             // ini berdasar idmatakuliah
             //String course_name = jsonObject.getString("mk_id");
 
@@ -97,8 +98,8 @@ public class CourseListViewAdapter extends BaseAdapter {
 
     private class ListCell
     {
-        private TextView courseCode;
-        private TextView courseName;
-        private ImageView courseImage;
+        private TextView materialCode;
+        private TextView materialName;
+        private ImageView materialImage;
     }
 }

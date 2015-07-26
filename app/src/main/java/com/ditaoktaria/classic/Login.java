@@ -1,6 +1,8 @@
 package com.ditaoktaria.classic;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -23,14 +25,29 @@ import java.util.List;
 
 public class Login extends ActionBarActivity {
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Username = "userNameKey";
+    public static final String idLecture = "idLecturerKey";
+    public static final String StatusIsLogIn = "LoginKey";
+
+    SharedPreferences sharedpreferences;
     private EditText usernameField,passwordField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         usernameField = (EditText)findViewById(R.id.username);
         passwordField = (EditText)findViewById(R.id.password);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        boolean statuslogin = sharedpreferences.getBoolean(StatusIsLogIn, false);
+        if(statuslogin){
+            Intent myIntent = new Intent(getApplicationContext(), ManageCourse.class);
+            //id itu key, data value
+
+            startActivityForResult(myIntent, 0);
+        }
 
         Button lg = (Button) findViewById(R.id.bt_login);
         lg.setOnClickListener(new View.OnClickListener() {
@@ -75,14 +92,21 @@ public class Login extends ActionBarActivity {
             try {
                 //JSONArray response = new JSONArray(s);
                 JSONObject jsonObject = new JSONObject(s);
-                if (jsonObject.getBoolean("status")){
+                if (jsonObject.getBoolean("status")) {
                     //kalo true proses selanjutnya
                     Log.d("hasil login", "success");
 
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                    editor.putBoolean(StatusIsLogIn,true);
+                    editor.putString(Username, usernameField.getText().toString());
+                    editor.putString(idLecture, jsonObject.getJSONObject("data").getString("idLecturer"));
+                    editor.commit();
+
                     //post idLecture ke activity managecourse
                     Intent myIntent = new Intent(getApplicationContext(), ManageCourse.class);
-                    myIntent.putExtra("id",jsonObject.getString("data"));
-                   // myIntent.putExtra(username);
+                    //id itu key, data value
+
                     startActivityForResult(myIntent, 0);
 
                 }else {

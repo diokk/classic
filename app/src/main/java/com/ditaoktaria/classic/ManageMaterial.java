@@ -1,9 +1,12 @@
 package com.ditaoktaria.classic;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,23 +14,31 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ManageMaterial extends ActionBarActivity implements AdapterView.OnItemClickListener {
-    private ListView material_list;
+    private ListView course_list;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_course);
+        this.course_list = (ListView) this.findViewById(R.id.course_list);
 
-        this.material_list = (ListView) this.findViewById(R.id.material_list);
+        this.course_list = (ListView) this.findViewById(R.id.course_list);
+       // SharedPreferences pf= getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        String getmatkulid = getIntent().getStringExtra("matkulid");
+        new ProcessMaterial().execute(getmatkulid);
 
-        new getAllCourseTask().execute(new ApiConnector());
 
         Button ac = (Button) findViewById(R.id.bt_account);
         ac.setOnClickListener(new View.OnClickListener() {
@@ -59,16 +70,62 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
     }
 
+    private class ProcessMaterial extends AsyncTask<String,String,String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String postMatkul = params[0];
+            String url ="http://192.168.56.1/classicdevel/server/getMateri.php";
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            //kanan dari andro, kiri variable $php
+            nameValuePairs.add(new BasicNameValuePair("idMatkul", postMatkul));
+            ServiceHandler loginService = new ServiceHandler();
+            String s = loginService.makeServiceCall(url, ServiceHandler.POST, nameValuePairs);
+
+            return s;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("hasil materi", s);
+            try {
+                //JSONArray response = new JSONArray(s);
+                JSONObject jsonObject = new JSONObject(s);
+                if (jsonObject.getBoolean("status")) {
+                    //kalo true proses selanjutnya
+                    Log.d("hasil login", "success");
+                    //JSONObject dataMateri = response.getJSONObject(1);
+                    course_list.setAdapter(new MaterialListViewAdapter(jsonObject.getJSONArray("data_materi"), ManageMaterial.this));
+
+
+                }else {
+                    //kalo false kasih alert
+                    Log.d("hasil login", "gagal");
+
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+
+    }
+
     public void setListAdapter(JSONArray jsonArray){
-        this.material_list.setAdapter(new CourseListViewAdapter(jsonArray,this));
-        material_list.setOnItemClickListener(this);
+        this.course_list.setAdapter(new MaterialListViewAdapter(jsonArray,this));
+        course_list.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //manggil adapter
 
-        JSONObject jsonObject = (JSONObject) material_list.getAdapter().getItem(position);
+        JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
             String id1 = jsonObject.getString("id");
             //id matkul
@@ -81,21 +138,7 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
     //ambo pecik tarok di siko manggil asyn nyo
 
-    private class getAllCourseTask extends AsyncTask<ApiConnector,Long,JSONArray>
-    {
-        protected JSONArray doInBackground(ApiConnector... params) {
-            // it is executed on Background thread
 
-            return  params[0].GetAllSubject();
-        }
-        protected void onPostExecute(JSONArray jsonArray){
-
-            setListAdapter(jsonArray);
-        }
-
-
-
-    }
 
 
     @Override

@@ -1,7 +1,10 @@
 package com.ditaoktaria.classic;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -33,9 +37,12 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
 
         this.course_list = (ListView) this.findViewById(R.id.course_list);
 
-       // new getAllCourseTask().execute(new ApiConnector());
+        // new getAllCourseTask().execute(new ApiConnector());
 
-        String id= getIntent().getStringExtra("id");
+        String data = getIntent().getStringExtra("dataAll");
+        SharedPreferences pf= getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        new ProcessCourse().execute(pf.getString(Login.idLecture,""));
+
 
         Button ac = (Button) findViewById(R.id.bt_account);
         ac.setOnClickListener(new View.OnClickListener() {
@@ -67,18 +74,24 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
 
     }
 
-    public void setListAdapter(JSONArray jsonArray){
+    public void setListAdapter(JSONArray jsonArray) {
         this.course_list.setAdapter(new CourseListViewAdapter(jsonArray, this));
-        course_list.setOnItemClickListener(this);
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //manggil adapter
-
         JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
-            String id1 = jsonObject.getString("id");
+            String id1 = jsonObject.getString("mk_id");
+            Intent myIntent = new Intent(getApplicationContext(), ManageMaterial.class);
+            //id itu key, data value
+            myIntent.putExtra("matkulid",id1);
+
+            startActivityForResult(myIntent, 0);
+            //Toast.makeText(this, id1, Toast.LENGTH_SHORT).show();
+
             //id matkul
             //bikin persis course list view adapter,material list cell juga
         } catch (JSONException e) {
@@ -89,54 +102,41 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
 
     //ambo pecik tarok di siko manggil asyn nyo
 
-    private class ProcessLogin extends AsyncTask<String,String,String>{
+     private class ProcessCourse extends AsyncTask<String,String,String>{
 
-        @Override
-        protected String doInBackground(String... params) {
-            String idLecturer = params[0];
+         @Override
+         protected String doInBackground(String... params) {
+             String idLecturer = params[0];
 
-            String url ="http://192.168.56.1/classicdevel/server/getMatkul.php";
+             String url ="http://192.168.56.1/classicdevel/server/getMatkul.php";
 
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            //kiri dari andro, kanan variable $php
-            nameValuePairs.add(new BasicNameValuePair("id", idLecturer));
-            ServiceHandler loginService = new ServiceHandler();
-            String s = loginService.makeServiceCall(url, ServiceHandler.POST, nameValuePairs);
-
-
-            return s;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.d("hasil login", s);
-            try {
-                //JSONArray response = new JSONArray(s);
-                JSONObject jsonObject = new JSONObject(s);
-                if (jsonObject.getBoolean("status")){
-                    //kalo true proses selanjutnya
-                    Log.d("hasil login", "success");
+             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+             //kiri dari variable di php post, kanan variable android di atas tadi
+             nameValuePairs.add(new BasicNameValuePair("id", idLecturer));
+             ServiceHandler loginService = new ServiceHandler();
+             String s = loginService.makeServiceCall(url, ServiceHandler.POST, nameValuePairs);
 
 
-                    //post idLecture ke activity managecourse
-                    Intent myIntent = new Intent(getApplicationContext(), ManageCourse.class);
-                    myIntent.putExtra("id",jsonObject.getString("data"));
-                    startActivityForResult(myIntent, 0);
+             return s;
+         }
 
-                }else {
-                    //kalo false kasih alert
-                    Log.d("hasil login", "gagal");
+         @Override
+         protected void onPostExecute(String s) {
+             super.onPostExecute(s);
+             Log.d("hasil login", s);
+             try {
+                 //JSONArray response = new JSONArray(s);
+                 JSONObject jsonObject = new JSONObject(s);
+                 String namaDosen = jsonObject.getJSONObject("data").getString("fullname");
 
-                }
+                 course_list.setAdapter(new CourseListViewAdapter(jsonObject.getJSONArray("data_mk"), ManageCourse.this));
+                 course_list.setOnItemClickListener(ManageCourse.this);
+             } catch (JSONException e) {
+                 e.printStackTrace();
+             }
 
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
+         }
+     }
 
 
     @Override
