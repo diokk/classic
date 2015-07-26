@@ -41,7 +41,6 @@ public class Login extends ActionBarActivity {
 
 
 
-
                 //
             }
         });
@@ -80,8 +79,10 @@ public class Login extends ActionBarActivity {
                     //kalo true proses selanjutnya
                     Log.d("hasil login", "success");
 
+                    //post idLecture ke activity managecourse
                     Intent myIntent = new Intent(getApplicationContext(), ManageCourse.class);
                     myIntent.putExtra("id",jsonObject.getString("data"));
+                   // myIntent.putExtra(username);
                     startActivityForResult(myIntent, 0);
 
                 }else {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,13 +12,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ManageCourse extends ActionBarActivity implements AdapterView.OnItemClickListener {
-    private ListView material_list;
+    private ListView course_list;
 
 
     @Override
@@ -25,7 +31,7 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_course);
 
-        this.material_list = (ListView) this.findViewById(R.id.material_list);
+        this.course_list = (ListView) this.findViewById(R.id.course_list);
 
        // new getAllCourseTask().execute(new ApiConnector());
 
@@ -62,15 +68,15 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
     }
 
     public void setListAdapter(JSONArray jsonArray){
-        this.material_list.setAdapter(new CourseListViewAdapter(jsonArray,this));
-        material_list.setOnItemClickListener(this);
+        this.course_list.setAdapter(new CourseListViewAdapter(jsonArray, this));
+        course_list.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //manggil adapter
 
-        JSONObject jsonObject = (JSONObject) material_list.getAdapter().getItem(position);
+        JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
             String id1 = jsonObject.getString("id");
             //id matkul
@@ -83,20 +89,53 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
 
     //ambo pecik tarok di siko manggil asyn nyo
 
-    private class getAllCourseTask extends AsyncTask<ApiConnector,Long,JSONArray>
-    {
-        protected JSONArray doInBackground(ApiConnector... params) {
-            // it is executed on Background thread
+    private class ProcessLogin extends AsyncTask<String,String,String>{
 
-            return  params[0].GetAllSubject();
+        @Override
+        protected String doInBackground(String... params) {
+            String idLecturer = params[0];
+
+            String url ="http://192.168.56.1/classicdevel/server/getMatkul.php";
+
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            //kiri dari andro, kanan variable $php
+            nameValuePairs.add(new BasicNameValuePair("id", idLecturer));
+            ServiceHandler loginService = new ServiceHandler();
+            String s = loginService.makeServiceCall(url, ServiceHandler.POST, nameValuePairs);
+
+
+            return s;
         }
-        protected void onPostExecute(JSONArray jsonArray){
 
-            setListAdapter(jsonArray);
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("hasil login", s);
+            try {
+                //JSONArray response = new JSONArray(s);
+                JSONObject jsonObject = new JSONObject(s);
+                if (jsonObject.getBoolean("status")){
+                    //kalo true proses selanjutnya
+                    Log.d("hasil login", "success");
+
+
+                    //post idLecture ke activity managecourse
+                    Intent myIntent = new Intent(getApplicationContext(), ManageCourse.class);
+                    myIntent.putExtra("id",jsonObject.getString("data"));
+                    startActivityForResult(myIntent, 0);
+
+                }else {
+                    //kalo false kasih alert
+                    Log.d("hasil login", "gagal");
+
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
-
-
-
     }
 
 
