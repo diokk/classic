@@ -90,17 +90,13 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
             myIntent.putExtra("matkulid",id1);
 
             startActivityForResult(myIntent, 0);
-            //Toast.makeText(this, id1, Toast.LENGTH_SHORT).show();
 
-            //id matkul
-            //bikin persis course list view adapter,material list cell juga
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
     }
 
-    //ambo pecik tarok di siko manggil asyn nyo
 
      private class ProcessCourse extends AsyncTask<String,String,String>{
 
@@ -123,14 +119,20 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
          @Override
          protected void onPostExecute(String s) {
              super.onPostExecute(s);
-             Log.d("hasil login", s);
+             Log.d("hasil matkul", s);
              try {
-                 //JSONArray response = new JSONArray(s);
-                 JSONObject jsonObject = new JSONObject(s);
-                 String namaDosen = jsonObject.getJSONObject("data").getString("fullname");
 
+                 JSONObject jsonObject = new JSONObject(s);
+
+                 int check_matkul = jsonObject.getJSONArray("data_mk").length();
+                 if(check_matkul==0){
+                     Log.d("tak ada matkul", "tak ada");
+
+                 }
+                 else{
+                 Log.d("matkul ada", "matkul ada");
                  course_list.setAdapter(new CourseListViewAdapter(jsonObject.getJSONArray("data_mk"), ManageCourse.this));
-                 course_list.setOnItemClickListener(ManageCourse.this);
+                 course_list.setOnItemClickListener(ManageCourse.this);}
              } catch (JSONException e) {
                  e.printStackTrace();
              }

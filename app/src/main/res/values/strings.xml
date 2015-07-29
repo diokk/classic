@@ -8,4 +8,5 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_edit_account">EditAccount</string>
     <string name="title_activity_videoplayer">videoplayer</string>
+    <string name="title_activity_material_dialog">MaterialDialog</string>
 </resources>

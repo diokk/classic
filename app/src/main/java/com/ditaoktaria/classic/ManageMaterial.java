@@ -67,7 +67,6 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
             }
         });
 
-
     }
 
     private class ProcessMaterial extends AsyncTask<String,String,String> {
@@ -90,13 +89,14 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
             super.onPostExecute(s);
             Log.d("hasil materi", s);
             try {
-                //JSONArray response = new JSONArray(s);
+
                 JSONObject jsonObject = new JSONObject(s);
                 if (jsonObject.getBoolean("status")) {
-                    //kalo true proses selanjutnya
+
                     Log.d("hasil login", "success");
-                    //JSONObject dataMateri = response.getJSONObject(1);
+
                     course_list.setAdapter(new MaterialListViewAdapter(jsonObject.getJSONArray("data_materi"), ManageMaterial.this));
+                    course_list.setOnItemClickListener(ManageMaterial.this);
 
 
                 }else {
@@ -127,9 +127,12 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
         JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
-            String id1 = jsonObject.getString("id");
-            //id matkul
-            //bikin persis course list view adapter,material list cell juga
+
+            //kalo di klik muncul keterangan dan menu-menu
+            String formatMateri = jsonObject.getString("format");
+
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

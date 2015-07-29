@@ -13,7 +13,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-
         </activity>
         <activity
             android:name=".pdfplayer"
@@ -43,6 +42,10 @@
         <activity
             android:name=".videoplayer"
             android:label="@string/title_activity_videoplayer" >
+        </activity>
+        <activity
+            android:name=".MaterialDialog"
+            android:label="@string/title_activity_material_dialog" >
         </activity>
     </application>
 
