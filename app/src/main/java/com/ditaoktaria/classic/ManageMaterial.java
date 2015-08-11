@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -28,6 +30,11 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
     private ListView course_list;
 
 
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ShowMaterialDialog editNameDialog = new ShowMaterialDialog();
+        editNameDialog.show(fm, "fragment_edit_name");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,9 +134,13 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
         JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
-
-            //kalo di klik muncul keterangan dan menu-menu
+            String material_name = jsonObject.getString("materialTitle");
+            String material_desc = jsonObject.getString("description");
             String formatMateri = jsonObject.getString("format");
+            showEditDialog();
+            //Toast.makeText(getApplicationContext(), "this is my Toast message!!! =)",
+              //      Toast.LENGTH_LONG).show();
+
 
 
 

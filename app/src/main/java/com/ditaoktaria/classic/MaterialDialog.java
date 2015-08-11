@@ -8,11 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.support.v4.app.DialogFragment;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class MaterialDialog extends DialogFragment {
-    private EditText mEditText;
+
+    private Button buttonPlay;
+    private TextView materialDesc;
 
     /*
     @Override
@@ -28,20 +32,13 @@ public class MaterialDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_material_dialog, container);
-        mEditText = (EditText) view.findViewById(R.id.txt_your_name);
+        buttonPlay = (Button) view.findViewById(R.id.bt_play);
+        materialDesc = (TextView) view.findViewById(R.id.tv_materialDesc);
         getDialog().setTitle("Hello Material ");
-
         return view;
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_material_dialog, menu);
-        return true;
-    }
-    */
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

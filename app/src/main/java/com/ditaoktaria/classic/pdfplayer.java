@@ -29,7 +29,7 @@ public class pdfplayer extends ActionBarActivity {
         webview.getSettings().setJavaScriptEnabled(true);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webview.loadUrl("http://192.168.56.1/classicdevel/pdfjs/web/viewer.html");
+        webview.loadUrl("http://172.16.2.239/classicdevel/pdfjs/web/viewer.html");
 
 
     }

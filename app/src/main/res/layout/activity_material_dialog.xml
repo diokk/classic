@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -8,12 +8,28 @@
     tools:context="com.ditaoktaria.classic.MaterialDialog">
 
     <TextView
-        android:id="@+id/lbl_your_name" android:text="Your name"
+        android:id="@+id/tv_materialTitle" android:text="Material Title"
         android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/txt_your_name"
-        android:layout_width="match_parent"  android:layout_height="wrap_content"
-        android:inputType="text"
-        android:imeOptions="actionDone" />
-</LinearLayout>
+    <Button
+        android:layout_width="33dp"
+        android:layout_height="35dp"
+        android:id="@+id/bt_play"
+        android:background="#4e4e4e"
+        android:drawableLeft="@android:drawable/ic_media_play"
+        android:layout_marginTop="107dp"
+        android:layout_below="@+id/tv_materialTitle"
+        android:layout_alignRight="@+id/tv_materialTitle"
+        android:layout_alignEnd="@+id/tv_materialTitle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Material Description bla bla"
+        android:id="@+id/tv_materialDesc"
+        android:layout_below="@+id/tv_materialTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

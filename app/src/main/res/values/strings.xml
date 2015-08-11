@@ -9,4 +9,6 @@
     <string name="title_activity_edit_account">EditAccount</string>
     <string name="title_activity_videoplayer">videoplayer</string>
     <string name="title_activity_material_dialog">MaterialDialog</string>
+    <string name="title_activity_show_material_dialog">ShowMaterialDialog</string>
+    <string name="title_activity_show_dialog">ShowDialog</string>
 </resources>
