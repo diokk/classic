@@ -28,19 +28,21 @@ import java.util.List;
 
 public class ManageMaterial extends ActionBarActivity implements AdapterView.OnItemClickListener {
     private ListView course_list;
+    private String set_material_description;
+    private String set_material_title;
 
 
     private void showEditDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        ShowMaterialDialog editNameDialog = new ShowMaterialDialog();
-        editNameDialog.show(fm, "fragment_edit_name");
+        MaterialDialog materialNameDialog = new MaterialDialog();
+        materialNameDialog.show(fm, "activity_material_dialog");
     }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_course);
-        this.course_list = (ListView) this.findViewById(R.id.course_list);
-
         this.course_list = (ListView) this.findViewById(R.id.course_list);
        // SharedPreferences pf= getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         String getmatkulid = getIntent().getStringExtra("matkulid");
@@ -99,7 +101,6 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
                 JSONObject jsonObject = new JSONObject(s);
                 if (jsonObject.getBoolean("status")) {
-
                     Log.d("hasil login", "success");
 
                     course_list.setAdapter(new MaterialListViewAdapter(jsonObject.getJSONArray("data_materi"), ManageMaterial.this));
@@ -135,13 +136,14 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
         JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
             String material_name = jsonObject.getString("materialTitle");
-            String material_desc = jsonObject.getString("description");
-            String formatMateri = jsonObject.getString("format");
+            String material_desc = jsonObject.getString("fileName");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("setMaterialDesc", material_desc);
+            MaterialDialog fragobj = new MaterialDialog();
+            fragobj.setArguments(bundle);
+
             showEditDialog();
-            //Toast.makeText(getApplicationContext(), "this is my Toast message!!! =)",
-              //      Toast.LENGTH_LONG).show();
-
-
 
 
         } catch (JSONException e) {
@@ -150,7 +152,7 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
     }
 
-    //ambo pecik tarok di siko manggil asyn nyo
+
 
 
 

@@ -1,7 +1,9 @@
 package com.ditaoktaria.classic;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,19 +13,16 @@ import android.support.v4.app.DialogFragment;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 
 public class MaterialDialog extends DialogFragment {
 
-    private Button buttonPlay;
-    private TextView materialDesc;
 
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_material_dialog);
-    }*/
+    private Button buttonPlay;
+    private TextView materialDesc,materialTitle;
+
+
     public MaterialDialog() {
         // Empty constructor required for DialogFragment
     }
@@ -31,10 +30,16 @@ public class MaterialDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.activity_material_dialog, container);
         buttonPlay = (Button) view.findViewById(R.id.bt_play);
+        materialTitle = (TextView) view.findViewById(R.id.tv_materialTitle);
         materialDesc = (TextView) view.findViewById(R.id.tv_materialDesc);
-        getDialog().setTitle("Hello Material ");
+        getDialog().setTitle("Hello Material");
+        String strtext = getArguments().getString("setMaterialDesc");
+        materialTitle.setText(strtext);
+         materialDesc.setText(strtext);
+
         return view;
     }
 

@@ -51,10 +51,6 @@
             android:name=".ShowMaterialDialog"
             android:label="@string/title_activity_show_material_dialog" >
         </activity>
-        <activity
-            android:name=".ShowDialog"
-            android:label="@string/title_activity_show_dialog" >
-        </activity>
     </application>
 
 </manifest>
