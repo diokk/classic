@@ -79,8 +79,8 @@ public class CourseListViewAdapter extends BaseAdapter {
         try
         {
             JSONObject jsonObject = this.dataArray.getJSONObject(position);
-            cell.courseCode.setText(jsonObject.getString("mk_id"));
-            cell.courseName.setText(jsonObject.getString("mk_name"));
+            cell.courseCode.setText(jsonObject.getString("idCourse"));
+            cell.courseName.setText(jsonObject.getString("courseName"));
             // ini berdasar idmatakuliah
             //String course_name = jsonObject.getString("mk_id");
 

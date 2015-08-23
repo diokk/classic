@@ -73,7 +73,7 @@ public class Login extends ActionBarActivity {
         protected String doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
-            String url ="http://192.168.56.1/classicdevel/server/login.php";
+            String url ="http://192.168.56.1/classicserver/server/Login.php";
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("username", username));

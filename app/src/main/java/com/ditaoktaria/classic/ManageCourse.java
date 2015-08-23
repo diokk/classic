@@ -39,7 +39,7 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
 
         // new getAllCourseTask().execute(new ApiConnector());
 
-        String data = getIntent().getStringExtra("dataAll");
+       // String data = getIntent().getStringExtra("dataAll");
         SharedPreferences pf= getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         new ProcessCourse().execute(pf.getString(Login.idLecture,""));
 
@@ -84,7 +84,7 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
         //manggil adapter
         JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
-            String id1 = jsonObject.getString("mk_id");
+            String id1 = jsonObject.getString("idCourse");
             Intent myIntent = new Intent(getApplicationContext(), ManageMaterial.class);
             //id itu key, data value
             myIntent.putExtra("matkulid",id1);
@@ -104,7 +104,7 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
          protected String doInBackground(String... params) {
              String idLecturer = params[0];
 
-             String url ="http://192.168.56.1/classicdevel/server/getMatkul.php";
+             String url ="http://192.168.56.1/classicserver/server/getMatkul.php";
 
              List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
              //kiri dari variable di php post, kanan variable android di atas tadi

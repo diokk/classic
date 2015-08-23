@@ -83,7 +83,7 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
         @Override
         protected String doInBackground(String... params) {
             String postMatkul = params[0];
-            String url ="http://192.168.56.1/classicdevel/server/getMateri.php";
+            String url ="http://192.168.56.1/classicserver/server/getMateri.php";
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             //kanan dari andro, kiri variable $php
             nameValuePairs.add(new BasicNameValuePair("idMatkul", postMatkul));
