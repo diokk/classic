@@ -11,22 +11,27 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:screenOrientation="landscape"
             android:name=".MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:screenOrientation="landscape"
             android:name=".pdfplayer"
             android:label="@string/title_activity_pdfplayer" >
         </activity>
         <activity
+            android:screenOrientation="landscape"
             android:name=".ManageCourse"
             android:label="@string/title_activity_materials" >
         </activity>
         <activity
+            android:screenOrientation="landscape"
             android:name=".ManageMaterial"
             android:label="@string/title_activity_materials" >
         </activity>
         <activity
+            android:screenOrientation="landscape"
             android:name=".Login"
             android:label="@string/title_activity_login" >
             <intent-filter>
@@ -36,21 +41,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="landscape"
             android:name=".EditAccount"
             android:label="@string/title_activity_edit_account" >
         </activity>
         <activity
+            android:screenOrientation="landscape"
             android:name=".videoplayer"
             android:label="@string/title_activity_videoplayer" >
         </activity>
-        <activity
-            android:name=".MaterialDialog"
-            android:label="@string/title_activity_material_dialog" >
-        </activity>
-        <activity
-            android:name=".ShowMaterialDialog"
-            android:label="@string/title_activity_show_material_dialog" >
-        </activity>
+
+
     </application>
 
 </manifest>

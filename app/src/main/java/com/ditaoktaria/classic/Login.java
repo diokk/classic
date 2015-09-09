@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -54,6 +55,7 @@ public class Login extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 new ProcessLogin().execute(usernameField.getText().toString(),passwordField.getText().toString());
+                Log.d("hasil execute", String.valueOf(usernameField.getText()));
 
 
 
@@ -73,7 +75,7 @@ public class Login extends ActionBarActivity {
         protected String doInBackground(String... params) {
             String username = params[0];
             String password = params[1];
-            String url ="http://192.168.56.1/classicserver/server/Login.php";
+            String url ="http://192.168.56.1/classicserver/server/login.php";
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("username", username));
@@ -100,7 +102,7 @@ public class Login extends ActionBarActivity {
 
                     editor.putBoolean(StatusIsLogIn,true);
                     editor.putString(Username, usernameField.getText().toString());
-                    editor.putString(idLecture, jsonObject.getJSONObject("data").getString("idLecturer"));
+                    editor.putString(idLecture, jsonObject.getJSONArray("data").getJSONObject(0).getString("idLecturer"));
                     editor.commit();
 
                     //post idLecture ke activity managecourse
@@ -126,7 +128,9 @@ public class Login extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_login, menu);
+
         return true;
     }
 

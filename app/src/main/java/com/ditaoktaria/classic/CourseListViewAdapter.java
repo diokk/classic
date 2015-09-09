@@ -63,8 +63,10 @@ public class CourseListViewAdapter extends BaseAdapter {
         {
             convertView = inflater.inflate(R.layout.course_list_cell, null);
             cell = new ListCell();
-            cell.courseCode = (TextView) convertView.findViewById(R.id.course_code_list);
             cell.courseName = (TextView) convertView.findViewById(R.id.course_name_list);
+            cell.courseFormat = (TextView) convertView.findViewById(R.id.course_format_list);
+            cell.courseSize = (TextView) convertView.findViewById(R.id.course_size_list);
+            cell.courseLastUpdate = (TextView) convertView.findViewById(R.id.course_last_update_list);
             cell.courseImage = (ImageView) convertView.findViewById(R.id.course_img_list);
             convertView.setTag(cell);
 
@@ -79,10 +81,10 @@ public class CourseListViewAdapter extends BaseAdapter {
         try
         {
             JSONObject jsonObject = this.dataArray.getJSONObject(position);
-            cell.courseCode.setText(jsonObject.getString("idCourse"));
             cell.courseName.setText(jsonObject.getString("courseName"));
-            // ini berdasar idmatakuliah
-            //String course_name = jsonObject.getString("mk_id");
+            cell.courseFormat.setVisibility(View.GONE);
+            cell.courseSize.setVisibility(View.GONE);
+            cell.courseLastUpdate.setVisibility(View.GONE);
 
 
         }
@@ -97,8 +99,10 @@ public class CourseListViewAdapter extends BaseAdapter {
 
     private class ListCell
     {
-        private TextView courseCode;
         private TextView courseName;
+        private TextView courseFormat;
+        private TextView courseSize;
+        private TextView courseLastUpdate;
         private ImageView courseImage;
     }
 }

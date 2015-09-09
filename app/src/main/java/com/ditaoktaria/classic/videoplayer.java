@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.net.Uri;
 import android.widget.MediaController;
 import android.widget.VideoView;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -22,8 +23,10 @@ public class videoplayer extends ActionBarActivity {
         setContentView(R.layout.activity_videoplayer);
         VideoView vidView = (VideoView)findViewById(R.id.myVideo);
 
+        String getVideoLocation = getIntent().getStringExtra("getLocation");
 
-        String vidAddress = "http://172.16.2.239/classicdevel/video/caca.mp4";
+        String vidAddress = "http://192.168.56.1/classic/"+getVideoLocation;
+        Log.d("video url", vidAddress);
         Uri vidUri = Uri.parse(vidAddress);
         vidView.setVideoURI(vidUri);
         vidView.start();

@@ -9,11 +9,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -28,6 +30,9 @@ import java.util.List;
 
 public class ManageCourse extends ActionBarActivity implements AdapterView.OnItemClickListener {
     private ListView course_list;
+    private View getUsernameBar;
+    private SharedPreferences pf;
+    private int ID_LOGOUT = 3232;
 
 
     @Override
@@ -40,36 +45,10 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
         // new getAllCourseTask().execute(new ApiConnector());
 
        // String data = getIntent().getStringExtra("dataAll");
-        SharedPreferences pf= getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
-        new ProcessCourse().execute(pf.getString(Login.idLecture,""));
+        pf= getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        new ProcessCourse().execute(pf.getString(Login.idLecture, ""));
 
 
-        Button ac = (Button) findViewById(R.id.bt_account);
-        ac.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), EditAccount.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
-
-        Button pdf = (Button) findViewById(R.id.bt_materials);
-        pdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), pdfplayer.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
-
-        Button vid = (Button) findViewById(R.id.bt_edit_materials);
-        vid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), videoplayer.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
 
 
     }
@@ -85,9 +64,11 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
         JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
             String id1 = jsonObject.getString("idCourse");
+            int id2 = 0;
             Intent myIntent = new Intent(getApplicationContext(), ManageMaterial.class);
             //id itu key, data value
-            myIntent.putExtra("matkulid",id1);
+            myIntent.putExtra("putIdCourse",id1);
+            myIntent.putExtra("putIdParent",id2);
 
             startActivityForResult(myIntent, 0);
 
@@ -103,12 +84,14 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
          @Override
          protected String doInBackground(String... params) {
              String idLecturer = params[0];
+             Log.d("idlect",idLecturer);
 
              String url ="http://192.168.56.1/classicserver/server/getMatkul.php";
 
              List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
              //kiri dari variable di php post, kanan variable android di atas tadi
              nameValuePairs.add(new BasicNameValuePair("id", idLecturer));
+
              ServiceHandler loginService = new ServiceHandler();
              String s = loginService.makeServiceCall(url, ServiceHandler.POST, nameValuePairs);
 
@@ -141,10 +124,19 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
      }
 
 
+    public boolean onPrepareOptionsMenu(Menu menu){
+        MenuItem item = menu.findItem(R.id.action_settings);
+        String username= pf.getString(Login.Username,"");
+        item.setTitle(username);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_materials, menu);
+       menu.add(Menu.NONE, ID_LOGOUT, Menu.NONE, "Logout");
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+
         return true;
     }
 
@@ -156,8 +148,21 @@ public class ManageCourse extends ActionBarActivity implements AdapterView.OnIte
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                Toast.makeText(getApplicationContext(), "ye profil di klik", Toast.LENGTH_SHORT).show();
+                break;
+            case 3232:
+                Toast.makeText(getApplicationContext(), "yee logout", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.clear();
+                editor.commit();
+                Intent intent = new Intent(this, Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

@@ -32,9 +32,10 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
     private String set_material_title;
 
 
-    private void showEditDialog() {
+    private void showEditDialog(Bundle bundle) {
         FragmentManager fm = getSupportFragmentManager();
         MaterialDialog materialNameDialog = new MaterialDialog();
+        materialNameDialog.setArguments(bundle);
         materialNameDialog.show(fm, "activity_material_dialog");
     }
 
@@ -45,36 +46,12 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
         setContentView(R.layout.manage_course);
         this.course_list = (ListView) this.findViewById(R.id.course_list);
        // SharedPreferences pf= getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
-        String getmatkulid = getIntent().getStringExtra("matkulid");
-        new ProcessMaterial().execute(getmatkulid);
+        String getIdCourse = getIntent().getStringExtra("putIdCourse");
+        int getIdParent = getIntent().getIntExtra("putIdParent", 0);
+        new ProcessMaterial().execute(getIdCourse, String.valueOf(getIdParent));
 
 
-        Button ac = (Button) findViewById(R.id.bt_account);
-        ac.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), EditAccount.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
 
-        Button pdf = (Button) findViewById(R.id.bt_materials);
-        pdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), pdfplayer.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
-
-        Button vid = (Button) findViewById(R.id.bt_edit_materials);
-        vid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), videoplayer.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
 
     }
 
@@ -82,14 +59,15 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
         @Override
         protected String doInBackground(String... params) {
-            String postMatkul = params[0];
-            String url ="http://192.168.56.1/classicserver/server/getMateri.php";
+            String postCourse = params[0];
+            String postParent = params[1];
+            String url ="http://192.168.56.1/classicserver/server/getMaterial.php";
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             //kanan dari andro, kiri variable $php
-            nameValuePairs.add(new BasicNameValuePair("idMatkul", postMatkul));
+            nameValuePairs.add(new BasicNameValuePair("idCourse", postCourse));
+            nameValuePairs.add(new BasicNameValuePair("idParent", postParent));
             ServiceHandler loginService = new ServiceHandler();
             String s = loginService.makeServiceCall(url, ServiceHandler.POST, nameValuePairs);
-
             return s;
         }
 
@@ -99,28 +77,23 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
             Log.d("hasil materi", s);
             try {
 
-                JSONObject jsonObject = new JSONObject(s);
-                if (jsonObject.getBoolean("status")) {
-                    Log.d("hasil login", "success");
+                JSONArray jsonArray = new JSONArray(s);
+               // if (jsonObject.getBoolean("status")) {
 
-                    course_list.setAdapter(new MaterialListViewAdapter(jsonObject.getJSONArray("data_materi"), ManageMaterial.this));
-                    course_list.setOnItemClickListener(ManageMaterial.this);
+                    course_list.setAdapter(new MaterialListViewAdapter(jsonArray, ManageMaterial.this));
+                    //
 
+                course_list.setOnItemClickListener(ManageMaterial.this);
 
-                }else {
+                //}else {
                     //kalo false kasih alert
-                    Log.d("hasil login", "gagal");
 
-                }
-
-
+                //}
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
-
-
 
     }
 
@@ -135,15 +108,29 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
 
         JSONObject jsonObject = (JSONObject) course_list.getAdapter().getItem(position);
         try {
-            String material_name = jsonObject.getString("materialTitle");
-            String material_desc = jsonObject.getString("fileName");
 
-            Bundle bundle = new Bundle();
-            bundle.putString("setMaterialDesc", material_desc);
-            MaterialDialog fragobj = new MaterialDialog();
-            fragobj.setArguments(bundle);
+            String jenis = jsonObject.getString("jenis");
+            if(jenis.equalsIgnoreCase("folder")){
+                String getIdCourse= jsonObject.getString("id_course");
+                int getIdParent=jsonObject.getInt("id_folder");
+                new ProcessMaterial().execute(getIdCourse, String.valueOf(getIdParent));
 
-            showEditDialog();
+            }
+            else if(jenis.equalsIgnoreCase("file")) {
+
+                String material_name = jsonObject.getString("name");
+                String material_desc = jsonObject.getString("description");
+                String material_location = jsonObject.getString("location");
+
+                Bundle bundle = new Bundle();
+                bundle.putString("setMaterialDesc", material_desc);
+                bundle.putString("setMaterialName", material_name);
+                bundle.putString("setMaterialLocation", material_location);
+
+
+                showEditDialog(bundle);
+
+            }
 
 
         } catch (JSONException e) {
@@ -151,10 +138,6 @@ public class ManageMaterial extends ActionBarActivity implements AdapterView.OnI
         }
 
     }
-
-
-
-
 
 
     @Override

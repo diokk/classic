@@ -16,15 +16,26 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Subject Code"
-            android:id="@+id/course_code_list"
+            android:text="Subject Name"
+            android:id="@+id/course_name_list"
              />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Subject Name"
-            android:id="@+id/course_name_list" />
+            android:text="Subject Format"
+            android:id="@+id/course_format_list" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Subject Size"
+            android:id="@+id/course_size_list" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Subject Last Update"
+            android:id="@+id/course_last_update_list" />
 
     </LinearLayout>
 

@@ -16,14 +16,8 @@ public class pdfplayer extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdfplayer);
-/*
-        Uri uri = Uri.parse("http://192.168.56.1/classicdevel/viewpdf.html");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        webview.getSettings().setJavaScriptEnabled(true);
-        startActivity(intent);
-        */
 
-
+        String getmatkulid = getIntent().getStringExtra("getLocation");
         WebView webview = (WebView) findViewById(R.id._webview);
         //setContentView(webview);
         webview.getSettings().setJavaScriptEnabled(true);

@@ -16,11 +16,12 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 
-public class MaterialDialog extends DialogFragment {
+public class MaterialDialog extends DialogFragment implements View.OnClickListener {
 
 
     private Button buttonPlay;
     private TextView materialDesc,materialTitle;
+    private String location;
 
 
     public MaterialDialog() {
@@ -37,8 +38,11 @@ public class MaterialDialog extends DialogFragment {
         materialDesc = (TextView) view.findViewById(R.id.tv_materialDesc);
         getDialog().setTitle("Hello Material");
         String strtext = getArguments().getString("setMaterialDesc");
-        materialTitle.setText(strtext);
+        String strtext1 = getArguments().getString("setMaterialName");
+        location = getArguments().getString("setMaterialLocation");
+        materialTitle.setText(strtext1);
          materialDesc.setText(strtext);
+        buttonPlay.setOnClickListener(this);
 
         return view;
     }
@@ -58,5 +62,12 @@ public class MaterialDialog extends DialogFragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent myIntent = new Intent(v.getContext(), videoplayer.class);
+        myIntent.putExtra("getLocation",location);
+        startActivityForResult(myIntent, 0);
     }
 }

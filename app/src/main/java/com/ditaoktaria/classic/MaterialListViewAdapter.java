@@ -64,8 +64,10 @@ public class MaterialListViewAdapter extends BaseAdapter {
         {
             convertView = inflater.inflate(R.layout.course_list_cell, null);
             cell = new ListCell();
-            cell.materialCode = (TextView) convertView.findViewById(R.id.course_code_list);
             cell.materialName = (TextView) convertView.findViewById(R.id.course_name_list);
+            cell.materialFormat = (TextView) convertView.findViewById(R.id.course_format_list);
+            cell.materialSize = (TextView) convertView.findViewById(R.id.course_size_list);
+            cell.materialLastUpdate = (TextView) convertView.findViewById(R.id.course_last_update_list);
             cell.materialImage = (ImageView) convertView.findViewById(R.id.course_img_list);
             convertView.setTag(cell);
 
@@ -80,10 +82,16 @@ public class MaterialListViewAdapter extends BaseAdapter {
         try
         {
             JSONObject jsonObject = this.dataArray.getJSONObject(position);
-            cell.materialCode.setText(jsonObject.getString("idMaterial"));
-            cell.materialName.setText(jsonObject.getString("materialTitle"));
-            // ini berdasar idmatakuliah
-            //String course_name = jsonObject.getString("mk_id");
+            cell.materialName.setText(jsonObject.getString("name"));
+            cell.materialFormat.setText(jsonObject.getString("format"));
+            cell.materialSize.setText(jsonObject.getString("size"));
+            cell.materialLastUpdate.setText(jsonObject.getString("last_update"));
+
+            String jenis = jsonObject.getString("jenis");
+            if(jenis.equalsIgnoreCase("folder")){
+
+
+            }
 
 
         }
@@ -98,8 +106,11 @@ public class MaterialListViewAdapter extends BaseAdapter {
 
     private class ListCell
     {
-        private TextView materialCode;
+
         private TextView materialName;
+        private TextView materialFormat;
+        private TextView materialSize;
+        private TextView materialLastUpdate;
         private ImageView materialImage;
     }
 }
